@@ -7,7 +7,7 @@ import { MessageCircle, Github, Linkedin, Mail, Moon, Sun, X, Download } from "l
 export default function Portfolio() {
   const [dark, setDark] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
-
+  const [chatLoading, setChatLoading] = useState(true);
   return (
     <div className={dark ? "dark" : ""}>
       <div className="relative min-h-screen overflow-x-hidden bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-500">
@@ -221,22 +221,53 @@ export default function Portfolio() {
                 className="backdrop-blur-2xl bg-white/80 dark:bg-black/80 border border-white/30 dark:border-white/10 w-full md:w-[900px] h-[80vh] md:h-[720px] rounded-t-3xl md:rounded-3xl overflow-hidden shadow-2xl"
               >
                 <div className="flex justify-between items-center p-5 border-b border-white/20 dark:border-white/10">
-                  <h4 className="font-semibold tracking-tight">Career Chatbot</h4>
 
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setChatOpen(false)}
-                  >
-                    <X />
-                  </Button>
-                </div>
+                    <h4 className="font-semibold tracking-tight">
+                      Career Chatbot
+                    </h4>
 
-                <iframe
-                  src="https://career-conservation.onrender.com"
-                  className="w-full h-full border-0"
-                  title="Career Chatbot"
-                />
+                    <div className="flex items-center gap-2">
+
+                      {/* Chat Icon */}
+                      <Button variant="ghost" size="icon">
+                        <MessageCircle />
+                      </Button>
+
+                      {/* Close Icon */}
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setChatOpen(false)}
+                      >
+                        <X />
+                      </Button>
+
+                    </div>
+
+                  </div>
+
+
+                {chatLoading ? (
+                  <div className="flex flex-col items-center justify-center h-full text-center px-6">
+
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-6"></div>
+
+                    <h3 className="text-xl font-semibold mb-3">
+                      AI Assistant is starting...
+                    </h3>
+
+                    <p className="opacity-70 text-sm">
+                      Usually takes 20–30 seconds on first load.
+                    </p>
+
+                  </div>
+                ) : (
+                  <iframe
+                    src="https://career-conservation.onrender.com"
+                    className="w-full h-full border-0"
+                  />
+                )}
+
               </motion.div>
             </motion.div>
           )}
