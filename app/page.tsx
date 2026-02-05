@@ -1,33 +1,71 @@
 "use client";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, Github, Linkedin, Mail, Moon, Sun, X, Download } from "lucide-react";
+import { MessageCircle, Mail, Moon, Sun, X, Download } from "lucide-react";
 
 export default function Portfolio() {
+
   const [dark, setDark] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
-  const [chatLoading, setChatLoading] = useState(true);
+
+  const [messages, setMessages] = useState([
+    { role: "assistant", content: "Hi — I’m Mohamed’s AI assistant. How can I help?" }
+  ]);
+
+  const [input, setInput] = useState("");
+  const [sending, setSending] = useState(false);
+
+  /* Wake Render Server */
   useEffect(() => {
-
-    const wakeServer = () => {
-      fetch("https://career-conservation.onrender.com")
-        .catch(()=>{});
-    };
-
-    wakeServer();
-
-    const interval = setInterval(wakeServer, 300000);
-
+    const wake = () => fetch("https://career-conservation.onrender.com").catch(()=>{});
+    wake();
+    const interval = setInterval(wake, 300000);
     return () => clearInterval(interval);
-
   }, []);
 
-  return (
-    <div className={dark ? "dark" : ""}>
-      <div className="relative min-h-screen overflow-x-hidden bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-500">
+  /* Send Message */
+  const sendMessage = async () => {
 
+    if (!input.trim()) return;
+
+    const userMsg = { role: "user", content: input };
+
+    setMessages(prev => [...prev, userMsg]);
+    setInput("");
+    setSending(true);
+
+    try {
+      const res = await fetch("https://career-conservation.onrender.com/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: input,
+          history: messages
+        })
+      });
+
+      const data = await res.json();
+
+      setMessages(prev => [
+        ...prev,
+        { role: "assistant", content: data.reply }
+      ]);
+
+    } catch {
+      setMessages(prev => [
+        ...prev,
+        { role: "assistant", content: "Server is waking up, try again." }
+      ]);
+    }
+
+    setSending(false);
+  };
+
+  return (
+
+    <div className={dark ? "dark" : ""}>
+      <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
         {/* ELITE MESH + NOISE BACKGROUND */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-[10%] left-[10%] w-[600px] h-[600px] bg-blue-500/20 blur-[180px] rounded-full" />
@@ -293,12 +331,11 @@ export default function Portfolio() {
             </div>
           </div>
         </section>
-
-        {/* FLOATING CHAT */}
+        {/* FLOATING CHAT BUTTON */}
         <div className="fixed bottom-8 right-8 z-50">
           <Button
             size="lg"
-            className="rounded-full w-16 h-16 shadow-2xl backdrop-blur-xl"
+            className="rounded-full w-16 h-16 shadow-2xl"
             onClick={() => setChatOpen(true)}
           >
             <MessageCircle />
@@ -308,79 +345,108 @@ export default function Portfolio() {
         {/* CHAT MODAL */}
         <AnimatePresence>
           {chatOpen && (
+
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end md:items-center justify-center"
+              className="fixed inset-0 bg-black/70 backdrop-blur-xl flex items-center justify-center z-50"
             >
+
+              {/* MODAL CARD */}
               <motion.div
-                initial={{ y: 80, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 80, opacity: 0 }}
-                className="backdrop-blur-2xl bg-white/80 dark:bg-black/80 border border-white/30 dark:border-white/10 w-full md:w-[900px] h-[80vh] md:h-[720px] rounded-t-3xl md:rounded-3xl overflow-hidden shadow-2xl"
+                initial={{ scale: .9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: .9, opacity: 0 }}
+                className="
+                  w-[95%] md:w-[900px]
+                  h-[85vh]
+                  rounded-3xl
+                  bg-black/60
+                  border border-white/10
+                  backdrop-blur-2xl
+                  shadow-2xl
+                  flex flex-col
+                  overflow-hidden
+                "
               >
-                <div className="flex justify-between items-center p-5 border-b border-white/20 dark:border-white/10">
 
-                    <h4 className="font-semibold tracking-tight">
-                      Career Chatbot
-                    </h4>
+                {/* HEADER */}
+                <div className="flex justify-between items-center px-6 py-4 border-b border-white/10">
 
-                    <div className="flex items-center gap-2">
+                  <h3 className="font-semibold text-lg bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 bg-clip-text text-transparent">
+                    AI Career Assistant
+                  </h3>
 
-                      {/* Chat Icon */}
-                      <Button variant="ghost" size="icon">
-                        <MessageCircle />
-                      </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setChatOpen(false)}
+                  >
+                    <X />
+                  </Button>
 
-                      {/* Close Icon */}
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => setChatOpen(false)}
+                </div>
+
+                {/* MESSAGES */}
+                <div className="flex-1 overflow-y-auto p-6 space-y-4">
+
+                  {messages.map((m, i) => (
+                    <div
+                      key={i}
+                      className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
+                    >
+                      <div
+                        className={`
+                          max-w-[70%] px-5 py-3 rounded-2xl text-sm
+                          ${m.role === "user"
+                            ? "bg-blue-500 text-white"
+                            : "bg-white/10 border border-white/10 backdrop-blur-xl"}
+                        `}
                       >
-                        <X />
-                      </Button>
-
+                        {m.content}
+                      </div>
                     </div>
+                  ))}
 
-                  </div>
-
-
-                <div className="relative w-full h-full">
-
-                  {chatLoading && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black z-10">
-
-                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-6"></div>
-
-                      <h3 className="text-xl font-semibold mb-3">
-                        AI Assistant is starting...
-                      </h3>
-
-                      <p className="opacity-70 text-sm">
-                        Usually takes 20–30 seconds on first load.
-                      </p>
-
+                  {sending && (
+                    <div className="text-white/60 text-sm animate-pulse">
+                      AI is typing...
                     </div>
                   )}
 
-                  <iframe
-                    src="https://career-conservation.onrender.com"
-                    className="w-full h-full border-0"
-                    onLoad={() => setChatLoading(false)}
+                </div>
+
+                {/* INPUT */}
+                <div className="border-t border-white/10 p-4 flex gap-3">
+
+                  <input
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                    placeholder="Ask me anything..."
+                    className="
+                      flex-1
+                      bg-white/5
+                      border border-white/10
+                      rounded-xl
+                      px-4 py-3
+                      outline-none
+                    "
                   />
 
+                  <Button onClick={sendMessage} disabled={sending}>
+                    Send
+                  </Button>
+
                 </div>
+
               </motion.div>
             </motion.div>
+
           )}
         </AnimatePresence>
 
-        {/* FOOTER */}
-        <footer className="border-t border-white/20 dark:border-white/10 text-center py-10 text-sm opacity-60">
-          © {new Date().getFullYear()} Mohamed Elmogy — Machine Learning Engineer
-        </footer>
       </div>
     </div>
   );
