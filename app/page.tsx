@@ -247,27 +247,31 @@ export default function Portfolio() {
                   </div>
 
 
-                {chatLoading ? (
-                  <div className="flex flex-col items-center justify-center h-full text-center px-6">
+                <div className="relative w-full h-full">
 
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-6"></div>
+                  {chatLoading && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black z-10">
 
-                    <h3 className="text-xl font-semibold mb-3">
-                      AI Assistant is starting...
-                    </h3>
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-6"></div>
 
-                    <p className="opacity-70 text-sm">
-                      Usually takes 20–30 seconds on first load.
-                    </p>
+                      <h3 className="text-xl font-semibold mb-3">
+                        AI Assistant is starting...
+                      </h3>
 
-                  </div>
-                ) : (
+                      <p className="opacity-70 text-sm">
+                        Usually takes 20–30 seconds on first load.
+                      </p>
+
+                    </div>
+                  )}
+
                   <iframe
                     src="https://career-conservation.onrender.com"
                     className="w-full h-full border-0"
+                    onLoad={() => setChatLoading(false)}
                   />
-                )}
 
+                </div>
               </motion.div>
             </motion.div>
           )}
