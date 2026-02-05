@@ -268,7 +268,6 @@ export default function Portfolio() {
         <footer className="border-t border-white/20 dark:border-white/10 text-center py-10 text-sm opacity-60">
           © {new Date().getFullYear()} Mohamed Elmogy — Machine Learning Engineer
         </footer>
-      </div>
     </div>
   );
 }
