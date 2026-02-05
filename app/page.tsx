@@ -7,6 +7,7 @@ import { MessageCircle, Github, Linkedin, Mail, Moon, Sun, X, Download } from "l
 export default function Portfolio() {
   const [dark, setDark] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
+  const [chatLoading, setChatLoading] = useState(true);
 
   return (
     <div className={dark ? "dark" : ""}>
@@ -195,14 +196,20 @@ export default function Portfolio() {
         </section>
 
         {/* FLOATING CHAT */}
-        <div className="fixed bottom-8 right-8 z-50">
-          <Button
-            size="lg"
-            className="rounded-full w-16 h-16 shadow-2xl backdrop-blur-xl"
-            onClick={() => setChatOpen(true)}
-          >
-            <MessageCircle />
-          </Button>
+        <Button
+          size="lg"
+          className="rounded-full w-16 h-16 shadow-2xl backdrop-blur-xl"
+          onClick={() => {
+            setChatOpen(true);
+            setChatLoading(true);
+        
+            setTimeout(() => {
+              setChatLoading(false);
+            }, 3000);
+          }}
+        >
+          <MessageCircle />
+        </Button>
         </div>
 
         {/* CHAT MODAL */}
@@ -232,11 +239,26 @@ export default function Portfolio() {
                   </Button>
                 </div>
 
-                <iframe
-                  src="https://career-conservation.onrender.com"
-                  className="w-full h-full border-0"
-                  title="Career Chatbot"
-                />
+                {chatLoading ? (
+                  <div className="flex flex-col items-center justify-center h-full text-center px-6">
+                
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-6"></div>
+                
+                    <h3 className="text-xl font-semibold mb-3">
+                      AI Assistant is starting...
+                    </h3>
+                
+                    <p className="opacity-70 text-sm">
+                      Usually takes 20–30 seconds on first load.
+                    </p>
+                
+                  </div>
+                ) : (
+                  <iframe
+                    src="https://career-conservation.onrender.com"
+                    className="w-full h-full border-0"
+                  />
+                )}
               </motion.div>
             </motion.div>
           )}
