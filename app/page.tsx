@@ -43,44 +43,128 @@ export default function Portfolio() {
         </nav>
 
         {/* HERO */}
-        <section className="relative px-8 pt-36 pb-32 max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <p className="uppercase tracking-[0.3em] text-xs opacity-60 mb-6">
-              MACHINE LEARNING ENGINEER • LLM • NLP • COMPUTER VISION
-            </p>
+        <section className="relative px-8 pt-36 pb-32 max-w-7xl mx-auto">
 
-            <h2 className="text-6xl md:text-7xl font-semibold tracking-tight leading-tight">
-              Production-Ready
-              <br />
-              <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
-                AI Systems
-              </span>
-            </h2>
+          <div className="grid md:grid-cols-2 gap-16 items-center">
 
-            <p className="opacity-70 mt-10 max-w-2xl text-xl leading-relaxed">
-              Building real-world AI systems across LLM engineering, Arabic NLP, and Computer Vision —
-              focused on production deployment and measurable performance.
-            </p>
+            {/* LEFT TEXT */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <p className="uppercase tracking-[0.3em] text-xs opacity-60 mb-6">
+                MACHINE LEARNING ENGINEER • LLM • NLP • COMPUTER VISION
+              </p>
 
-            <div className="flex flex-wrap gap-5 mt-14">
-              <a href="mailto:mohamedmahmoud.br@gmail.com">
-                <Button className="rounded-2xl px-12 py-7 text-lg shadow-xl">
-                  <Mail className="mr-3 h-5 w-5" /> Work With Me
-                </Button>
-              </a>
-              <a href="/resume.pdf" download>
-                <Button variant="outline" className="rounded-2xl px-12 py-7 text-lg backdrop-blur-xl">
-                  <Download className="mr-3 h-5 w-5" /> Download Resume
-                </Button>
-              </a>
-            </div>
-          </motion.div>
+              <h2 className="text-6xl md:text-7xl font-semibold tracking-tight leading-tight">
+                Production-Ready
+                <br />
+                <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
+                  AI Systems
+                </span>
+              </h2>
+
+              <p className="opacity-70 mt-10 max-w-xl text-xl leading-relaxed">
+                Building real-world AI systems across LLM engineering, Arabic NLP, and Computer Vision —
+                focused on production deployment and measurable performance.
+              </p>
+
+              <div className="flex flex-wrap gap-5 mt-14">
+                <a href="mailto:mohamedmahmoud.br@gmail.com">
+                  <Button className="rounded-2xl px-10 py-6 text-lg shadow-xl">
+                    <Mail className="mr-3 h-5 w-5" /> Work With Me
+                  </Button>
+                </a>
+
+                <a href="/resume.pdf" download>
+                  <Button variant="outline" className="rounded-2xl px-10 py-6 text-lg backdrop-blur-xl">
+                    <Download className="mr-3 h-5 w-5" /> Download Resume
+                  </Button>
+                </a>
+              </div>
+            </motion.div>
+
+            {/* RIGHT IMAGE */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.9 }}
+              className="flex justify-center perspective-[1200px]"
+            >
+
+              <motion.div
+                whileHover={{ y: -8, rotateX: 2, rotateY: -2 }}
+                transition={{ type: "spring", stiffness: 120 }}
+                className="relative group"
+              >
+
+                {/* AI GLOW BACKGROUND */}
+                <div className="
+                  absolute -inset-10 
+                  bg-gradient-to-r 
+                  from-blue-500/20 
+                  via-purple-500/20 
+                  to-cyan-400/20
+                  blur-3xl 
+                  opacity-60 
+                  group-hover:opacity-80
+                  transition
+                  rounded-[40px]
+                "></div>
+
+                {/* DEPTH SHADOW */}
+                <div className="
+                  absolute inset-0 
+                  translate-y-8 
+                  scale-95 
+                  blur-2xl 
+                  opacity-40 
+                  bg-black
+                  rounded-[40px]
+                "></div>
+
+                {/* GLASS CARD */}
+                <div className="
+                  relative
+                  rounded-[36px]
+                  overflow-hidden
+                  border border-white/20
+                  dark:border-white/10
+                  backdrop-blur-2xl
+                  bg-white/5
+                  shadow-[0_40px_120px_rgba(0,0,0,0.6)]
+                ">
+
+                  {/* LIGHT EDGE REFLECTION */}
+                  <div className="
+                    pointer-events-none
+                    absolute inset-0
+                    bg-gradient-to-br
+                    from-white/20 via-transparent to-transparent
+                    opacity-40
+                  "></div>
+
+                  <img
+                    src={dark ? "/mohamed4.png" : "/mohamed5.png"}
+                    alt="Mohamed Elmogy"
+                    className="
+                      w-[420px] md:w-[500px]
+                      object-cover
+                      relative z-10
+                    "
+                  />
+
+                </div>
+
+              </motion.div>
+
+            </motion.div>
+
+
+          </div>
+
         </section>
-
         {/* ABOUT */}
         <section id="about" className="px-8 py-28 max-w-5xl mx-auto text-center">
           <div className="backdrop-blur-2xl bg-white/40 dark:bg-white/5 border border-white/30 dark:border-white/10 rounded-3xl p-14 shadow-2xl">
