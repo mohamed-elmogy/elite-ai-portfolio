@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, Github, Linkedin, Mail, Moon, Sun, X, Download } from "lucide-react";
@@ -8,6 +9,21 @@ export default function Portfolio() {
   const [dark, setDark] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
   const [chatLoading, setChatLoading] = useState(true);
+  useEffect(() => {
+
+    const wakeServer = () => {
+      fetch("https://career-conservation.onrender.com")
+        .catch(()=>{});
+    };
+
+    wakeServer();
+
+    const interval = setInterval(wakeServer, 300000);
+
+    return () => clearInterval(interval);
+
+  }, []);
+
   return (
     <div className={dark ? "dark" : ""}>
       <div className="relative min-h-screen overflow-x-hidden bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-500">
