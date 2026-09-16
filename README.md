@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mohamed Elmogy - AI Portfolio
 
-## Getting Started
+Next.js portfolio focused on LLMs, Arabic NLP, and AI agents.
 
-First, run the development server:
+## Run locally
 
-```bash
+Requires Node.js 20.9 or newer.
+
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+npm run lint
+npm run build
+```
 
-## Learn More
+## Updated files
 
-To learn more about Next.js, take a look at the following resources:
+- app/page.tsx: responsive portfolio, accurate project and experience descriptions, contact links, accessible assistant dialog, guarded requests and error handling.
+- app/globals.css: responsive dark/light design with reduced-motion support.
+- app/layout.tsx: page title, description, canonical URL, social sharing metadata. Uses system fonts without a build-time font download.
+- public/resume.pdf: updated one-page CV with clickable links.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The existing assistant endpoint is retained at https://career-conservation.onrender.com/chat. Its backend and knowledge base are not part of this repository. Update that service separately if its answers contain outdated profile information. It is called only when a visitor sends a message.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Project cards do not invent repository URLs: the GitHub profile is linked below them. Add direct repository/demo links once available.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This copy is ready for review; the live Vercel site has not been deployed or changed.
